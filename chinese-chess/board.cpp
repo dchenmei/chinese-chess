@@ -4,7 +4,7 @@ using namespace std;
 
 namespace chinese_chess
 {
-	Board::Board(): width(9), length(10), board(length, vector<vector<int>(width))
+	Board::Board(): width(9), length(10), board(length, vector<shared_ptr<Piece>>(width))
 	{
     	// Base line: general, advisor, elephant, horse, chariot
     	
@@ -12,7 +12,7 @@ namespace chinese_chess
 		board[0][0] = make_shared<Chariot>(0, 0, false);
 		board[0][width - 1] = make_shared<Chariot>(0, width - 1, false);
 		board[length - 1][0] = make_shared<Chariot>(length - 1, 0, true);
-		board[length - 1][width - 1] = make_shared<Chariot>(lenght - 1, width - 1, true);
+		board[length - 1][width - 1] = make_shared<Chariot>(length - 1, width - 1, true);
 
 		// Horses
 		board[0][1] = make_shared<Chariot>(0, 1, false);

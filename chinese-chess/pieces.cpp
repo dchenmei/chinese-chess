@@ -23,22 +23,23 @@ namespace chinese_chess
 		// 	 * x + 1, y + 1 
 		// 	 * x - 1, y - 1 
 		// 	 * x - 1, y + 1 
-		
+	
+		#if 0
 		// TODO: Check that this logic actually works
-		if (x == 1 || x == -1 && y == 1 || y == -1)
+		if (dx == 1 || dx == -1 && dy == 1 || dy == -1)
 		{
-			x += dx;
-			y += dy;
+			this->x += dx;
+			this->y += dy;
 		}
 		else
 		{
 			// TODO: Throw invalid position erro?
 		}
-		
+		#endif
 	}
 
 	// Elephant
-	void Elephant:move(int dx, int dy)
+	void Elephant::move(int dx, int dy)
 	{
 		// Move valid only if
 		// - not over the river
@@ -57,4 +58,5 @@ namespace chinese_chess
 		// - not block by another piece (cannot jump over other piece)
 		// - one point horizontal / verical then one point diagonally
 	}
+
 }
