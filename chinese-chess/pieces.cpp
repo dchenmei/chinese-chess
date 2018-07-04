@@ -58,5 +58,4 @@ namespace chinese_chess
 		// - not block by another piece (cannot jump over other piece)
 		// - one point horizontal / verical then one point diagonally
 	}
-
 }
