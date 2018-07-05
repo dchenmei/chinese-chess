@@ -7,6 +7,7 @@
 
 using std::vector;
 using std::shared_ptr;
+using std::make_shared;
 
 // TODO
 // - alias unsigned ints
@@ -24,25 +25,20 @@ namespace chinese_chess
 		*/
 
 		// EZ Check functions useful for pieces to validate their move
-		bool in_box(int px, int py, bool red)
-		{
+		bool in_box(int, int, bool);
 
-		}
+		// across river if:
+		// 	* red and on black side (y < 5)
+		// 	* black and on red side (y > 4)			
+		bool across_river(int, int, bool);
 
-		bool across_river(int px, int py, bool red)
-		{
+		// piece is in board if:
+		//  * it goes beyond the edges of the board (9x10 dimension)
+		//  note: counting is from 0
+		bool in_board(int, int);
 
-		}
-
-		bool in_board(int px, int py)
-		{
-
-		}
-
-		bool valid_move(int px, int py, bool red)
-		{
-
-		}
+		// valid move from the board's perspective
+		bool valid_move(int, int, bool);
 
 	  private:
 		const unsigned int width;

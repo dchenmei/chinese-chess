@@ -48,4 +48,21 @@ namespace chinese_chess
 			board[red][i] = make_shared<Soldier>(red, i, true);
 		}
 	}
+
+	bool Board::in_box(int px, int py, bool red)
+	{
+		return px >= 3 && px <= 5 &&    
+			   ((red && py >= 7 && py <= 9) ||
+				 (py >= 0 && py <= 2));
+	}
+
+	bool Board::across_river(int px, int py, bool red)
+	{
+		return red && py < 5 || py > 4;
+	}
+
+	bool Board::in_board(int px, int py)
+	{
+		return px > -1 && px < 9 && py > -1 && py < 10;
+	}
 }
