@@ -63,6 +63,107 @@ namespace chinese_chess
 			cout << endl;
 		}
 	}
+	
+	void Board::move(int px, int py, int dx, int dy)	
+	{
+		// check if there is a piece at px py
+		if (!board[px][py])
+			return; // maybe throw error or bubble it
+		
+		// check if in board
+		if (!in_board(px + dy, py + dy))
+			return;
+
+		shared_ptr<Piece> p = board[px][py];
+		string name = p->get_name();
+
+		if (name == "General")
+		{
+			// Condition I: stays in the box
+			if (!in_box(p->get_x() + dx , p->get_y() + dy, p->is_red()))
+				return;
+			// Condition II: not facing the other general
+			// for each spot vertically, if piece found good but if general found bad
+			for (int cy = py - 1; cy > -1; --cy)
+			{
+				// found a piece
+				if (board[px][cy])
+				{
+					// found the general
+					if (board[px][cy]->get_name() == "General")
+						return;
+					// otherwise okay
+					else
+						break;
+				}
+			}
+			// nothing found no general okay too
+
+			// Condition III: not in check?? TODO
+
+			p->move(dx, dy); // update piece side
+						
+			// update board side (this only happens if no error happens on piece side)
+			
+			// If there is a piece == kill
+			if (board[px + dx][py + dy])
+			{
+				board[px + dx][py + dy] = nullptr; // no need to delete shared_ptr
+			}
+			board[px + dx][py + dy] = board[px][py];
+			board[px][py] = nullptr;
+		}
+	
+		else if (name == "Advisor")
+		{
+			// Condition I: stays in the box
+			if (!in_box(p->get_x() + dx , p->get_y() + dy, p->is_red()))
+				return;
+			
+			p->move(dx, dy);
+
+			if (board[px + dx][py + dy])
+			{
+				board[px + dx][py + dy] = nullptr; // no need to delete shared_ptr
+			}
+			board[px + dx][py + dy] = board[px][py];
+			board[px][py] = nullptr;
+		}
+
+		else if (name == "Elephant")
+		{
+			// Condition I: not across the river
+			if (across_river(p->get_x() + dx, p->get_y() + dy, p->is_red()))
+				return;
+
+			// Condition II: not blocked by other pieces
+			// TODO: missing implementation
+		
+			p->move(dx, dy);
+			if (board[px + dx][py + dy])
+			{
+				board[px + dx][py + dy] = nullptr; // no need to delete shared_ptr
+			}
+			board[px + dx][py + dy] = board[px][py];
+		}
+	
+		else if (name == "Horse")
+		{
+			// TODO: missing implementation
+		}
+
+		else if (name == "Cannon")
+		{
+			// If a capture is about to happen, there must be one piece in between
+			if (board[px + dx][py + dy])
+			{
+				// TODO: how do you check this, what if the dx and dy were invalid	
+			}
+		}
+
+		// Chariot and Soldiers probably does not need any board checks (lump into one?)
+	}
+
 
 	bool Board::in_box(int px, int py, bool red)
 	{

@@ -30,6 +30,10 @@ namespace chinese_chess
 		// prints all the board pieces
 		void print();
 
+		// move piece at px py by dx dy
+		void move(int, int, int, int);
+
+
 		// EZ Check functions useful for pieces to validate their move
 		bool in_box(int, int, bool);
 
