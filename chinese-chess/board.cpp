@@ -48,6 +48,21 @@ namespace chinese_chess
 			board[red][i] = make_shared<Soldier>(red, i, true);
 		}
 	}
+	
+	void Board::print()
+	{
+		for (auto line : board)
+		{
+			for (auto piece : line)
+			{
+				if (piece != nullptr)
+					cout << piece->get_name() << " ";
+				else
+					cout << "NONE ";
+			}
+			cout << endl;
+		}
+	}
 
 	bool Board::in_box(int px, int py, bool red)
 	{

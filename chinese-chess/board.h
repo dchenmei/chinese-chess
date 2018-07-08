@@ -3,11 +3,14 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "pieces.h"
 
 using std::vector;
 using std::shared_ptr;
 using std::make_shared;
+using std::cout;
+using std::endl;
 
 // TODO
 // - alias unsigned ints
@@ -23,6 +26,9 @@ namespace chinese_chess
 		Piece at(int x, int y);
 		Piece remove(int x, int y);
 		*/
+		
+		// prints all the board pieces
+		void print();
 
 		// EZ Check functions useful for pieces to validate their move
 		bool in_box(int, int, bool);
