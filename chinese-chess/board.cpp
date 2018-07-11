@@ -64,39 +64,79 @@ namespace chinese_chess
 		}
 	}
 	
+	bool Board::valid_general(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
+		// Condition I: stays in the box
+		if (!in_box(p->get_x() + dx , p->get_y() + dy, p->is_red()))
+			return false;
+				
+		// Condition II: not facing the other general
+		// for each spot vertically, if piece found good but if general found bad
+		for (int cy = py - 1; cy > -1; --cy)
+		{
+			// found a piece
+			if (board[px][cy])
+			{
+				// found the general
+				if (board[px][cy]->get_name() == "General")
+					return false;
+					// otherwise okay
+				else
+					break;
+			} 
+		}
+	
+		// TODO
+		// Condition III: not in check
+		// for each opposing piece, generate all possible moves and see if they correspond
+		// with the desired location
+		
+		// nothing wrong
+		return true;
+	}
+
+	bool Board::valid_advisor(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
+		// Condition I: stays in the box
+		return in_box(p->get_x() + dx , p->get_y() + dy, p->is_red());
+	}
+
+	bool Board::valid_elephant(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
+		// Condition I: not across the river
+		if (across_river(p->get_x() + dx, p->get_y() + dy, p->is_red()))
+			return;
+
+		// Condition II: not blocked by other pieces
+			// TODO: missing implementation
+
+	}
+
 	void Board::move(int px, int py, int dx, int dy)	
 	{
 		// check if there is a piece at px py
 		if (!board[px][py])
 			return; // maybe throw error or bubble it
+
 		
 		// check if in board
-		if (!in_board(px + dy, py + dy))
+		if (!in_board(px + dx, py + dy))
 			return;
+
+		#if 0
+		// check if friendly piece in the way
+		if (board[px + dx][py + dy] && (board[px][py]->is_red() == board[px + dx][py + dy]->is_red() ))
+			return;
+		#endif
+
 
 		shared_ptr<Piece> p = board[px][py];
 		string name = p->get_name();
 
+
 		if (name == "General")
 		{
-			// Condition I: stays in the box
-			if (!in_box(p->get_x() + dx , p->get_y() + dy, p->is_red()))
-				return;
-			// Condition II: not facing the other general
-			// for each spot vertically, if piece found good but if general found bad
-			for (int cy = py - 1; cy > -1; --cy)
-			{
-				// found a piece
-				if (board[px][cy])
-				{
-					// found the general
-					if (board[px][cy]->get_name() == "General")
-						return;
-					// otherwise okay
-					else
-						break;
-				}
-			}
+
 			// nothing found no general okay too
 
 			// Condition III: not in check?? TODO
@@ -116,10 +156,6 @@ namespace chinese_chess
 	
 		else if (name == "Advisor")
 		{
-			// Condition I: stays in the box
-			if (!in_box(p->get_x() + dx , p->get_y() + dy, p->is_red()))
-				return;
-			
 			p->move(dx, dy);
 
 			if (board[px + dx][py + dy])
@@ -132,12 +168,6 @@ namespace chinese_chess
 
 		else if (name == "Elephant")
 		{
-			// Condition I: not across the river
-			if (across_river(p->get_x() + dx, p->get_y() + dy, p->is_red()))
-				return;
-
-			// Condition II: not blocked by other pieces
-			// TODO: missing implementation
 		
 			p->move(dx, dy);
 			if (board[px + dx][py + dy])
@@ -160,10 +190,18 @@ namespace chinese_chess
 				// TODO: how do you check this, what if the dx and dy were invalid	
 			}
 		}
-
-		// Chariot and Soldiers probably does not need any board checks (lump into one?)
+		
+		// chariot and soldiers don't have any special exceptions
+		else
+		{
+			p->move(dx, dy); 
+			if (board[px + dx][py + dy])
+			{
+				board[px + dx][py + dy] = nullptr;
+			}
+			board[px + dx][py + dy] = board[px][py];
+		}
 	}
-
 
 	bool Board::in_box(int px, int py, bool red)
 	{

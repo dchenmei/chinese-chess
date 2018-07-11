@@ -30,6 +30,15 @@ namespace chinese_chess
 		// prints all the board pieces
 		void print();
 
+		// move checker's depending on the piece
+		bool valid_general(shared_ptr<Piece>, int, int, int, int);
+		bool valid_advisor(shared_ptr<Piece>, int, int, int, int);
+		bool valid_elephant(shared_ptr<Piece>, int, int, int, int);
+		bool valid_horse(shared_ptr<Piece>, int, int, int, int);
+		bool valid_chariot(shared_ptr<Piece>, int, int, int, int);
+		bool valid_cannon(shared_ptr<Piece>, int, int, int, int);
+		bool valid_soldier(shared_ptr<Piece>, int, int, int, int);
+
 		// move piece at px py by dx dy
 		void move(int, int, int, int);
 
@@ -47,8 +56,7 @@ namespace chinese_chess
 		//  note: counting is from 0
 		bool in_board(int, int);
 
-		// valid move from the board's perspective
-		bool valid_move(int, int, bool);
+
 
 	  private:
 		const unsigned int width;
