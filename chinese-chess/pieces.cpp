@@ -35,7 +35,7 @@ namespace chinese_chess
 		// 	 * x - 1, y - 1 
 		// 	 * x - 1, y + 1 
 	
-		if ((dx * dy != 1 && dx * dy != -1) || abs(dx) != 1 || abs(dy) != 1)
+		if (abs(dx) != abs(dy) || abs(dx) != 1 || abs(dy) != 1)
 			return false;
 
 		x += dx;
@@ -54,7 +54,7 @@ namespace chinese_chess
 		// * x + 2, y + 2
 		// * x - 2, y - 2
 		// * x - 2, y + 2
-		if (dx != dy || abs(dx) != 2 || abs(dy) != 2)
+		if (abs(dx) != abs(dy) || abs(dx) != 2 || abs(dy) != 2)
 			return false;
 
 		x += dx;

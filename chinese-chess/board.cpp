@@ -108,7 +108,11 @@ namespace chinese_chess
 			return false;
 
 		// Condition II: not blocked by other pieces
-			// TODO: missing implementation
+		int nx = (dx < 0 ? px + dx + 1 : px + dx - 1);
+		int ny = (dy < 0 ? py + dy + 1 : py + dy - 1);
+		
+		if (board[nx][ny])
+			return false;
 
 		return true;
 	}
@@ -239,9 +243,14 @@ namespace chinese_chess
 		// update board side (after piece side is validated)
 		// * reference piece in new position (kills enemy piece if any due to smart ptr)
 		// * resets the original position
-		p->move(dx, dy);
-		board[px + dx][py + dy] = board[px][py];
-		board[px][py] = nullptr;
+		if (p->move(dx, dy))
+		{
+			board[px + dx][py + dy] = board[px][py];
+			board[px][py] = nullptr;
+		}
+
+		// if piece side move failed, don't do anything
+		// maybe throw error is a better idea?
 	}
 
 	bool Board::in_box(int px, int py, bool red)
