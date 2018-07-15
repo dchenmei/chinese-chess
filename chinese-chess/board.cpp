@@ -105,10 +105,39 @@ namespace chinese_chess
 	{
 		// Condition I: not across the river
 		if (across_river(p->get_x() + dx, p->get_y() + dy, p->is_red()))
-			return;
+			return false;
 
 		// Condition II: not blocked by other pieces
 			// TODO: missing implementation
+
+		return true;
+	}
+
+	bool Board::valid_horse(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
+		// Condition I: not obstructed by another piece
+		// if dy > dx that means moving left or right first
+		// if dx > dy that means moving up or down first
+		// if moving up first, check if one up is obstructed vv for down
+		// if moving right, check if one right is obstructed vv for left
+		return (dy > dx && 
+				((dy < 0 && !board[px][py - 1]) || !board[px][py + 1])) || 
+			   (dx < 0 && !board[px - 1][py]) || !board[px + 1][py];
+		return true;
+	}
+
+	bool Board::valid_cannon(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
+		// if a capture was to happen, check leaping piece
+		if (board[px + dx][py + dy])
+		{
+			// TODO: how do you check this, what if the dx and dy were invalid	
+		} 
+	}
+
+	// soldiers and chariots probably don't need validators
+	bool Board::valid_chariot(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
 
 	}
 
@@ -117,43 +146,44 @@ namespace chinese_chess
 		// check if there is a piece at px py
 		if (!board[px][py])
 			return; // maybe throw error or bubble it
-
 		
-		// check if in board
+		// check if next position is in board
 		if (!in_board(px + dx, py + dy))
 			return;
 
-		#if 0
 		// check if friendly piece in the way
 		if (board[px + dx][py + dy] && (board[px][py]->is_red() == board[px + dx][py + dy]->is_red() ))
 			return;
-		#endif
 
-
+		// get the actual piece
 		shared_ptr<Piece> p = board[px][py];
-		string name = p->get_name();
+		int id = p->get_id();
 
-
-		if (name == "General")
+		switch(id)
 		{
+			case general:
+				if (valid_general(p, px, py, dx, dy)) break;
+			case advisor:
+				if (valid_advisor(p, px, py, dx, dy)) break;
+			case elephant:
+				if (valid_elephant(p, px, py, dx, dy)) break;
+			case horse:
+				if (valid_horse(p, px, py, dx, dy)) break;
+		
 
-			// nothing found no general okay too
-
-			// Condition III: not in check?? TODO
-
-			p->move(dx, dy); // update piece side
-						
-			// update board side (this only happens if no error happens on piece side)
-			
-			// If there is a piece == kill
-			if (board[px + dx][py + dy])
-			{
-				board[px + dx][py + dy] = nullptr; // no need to delete shared_ptr
-			}
-			board[px + dx][py + dy] = board[px][py];
-			board[px][py] = nullptr;
+			default:
+				cout << "SWITCH BUMMER" << endl;
+				return; // cop out move, maybe a better error handling?
 		}
-	
+
+		// update board side (after piece side is validated)
+		// * reference piece in new position (kills enemy piece if any due to smart ptr)
+		// * resets the original position
+		p->move(dx, dy);
+		board[px + dx][py + dy] = board[px][py];
+		board[px][py] = nullptr;
+
+		#if 0
 		else if (name == "Advisor")
 		{
 			p->move(dx, dy);
@@ -201,18 +231,19 @@ namespace chinese_chess
 			}
 			board[px + dx][py + dy] = board[px][py];
 		}
+		#endif
 	}
 
 	bool Board::in_box(int px, int py, bool red)
 	{
-		return px >= 3 && px <= 5 &&    
-			   ((red && py >= 7 && py <= 9) ||
-				 (py >= 0 && py <= 2));
+		return py >= 3 && py <= 5 &&    
+			   ((red && px >= 7 && px <= 9) ||
+				 (px >= 0 && px <= 2));
 	}
 
 	bool Board::across_river(int px, int py, bool red)
 	{
-		return red && py < 5 || py > 4;
+		return (red && px < 5) || px > 4;
 	}
 
 	bool Board::in_board(int px, int py)
