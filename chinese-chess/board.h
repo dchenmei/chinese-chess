@@ -35,8 +35,8 @@ namespace chinese_chess
 		bool valid_advisor(shared_ptr<Piece>, int, int, int, int);
 		bool valid_elephant(shared_ptr<Piece>, int, int, int, int);
 		bool valid_horse(shared_ptr<Piece>, int, int, int, int);
-		bool valid_chariot(shared_ptr<Piece>, int, int, int, int);
 		bool valid_cannon(shared_ptr<Piece>, int, int, int, int);
+		bool valid_chariot(shared_ptr<Piece>, int, int, int, int);
 		bool valid_soldier(shared_ptr<Piece>, int, int, int, int);
 
 		// move piece at px py by dx dy

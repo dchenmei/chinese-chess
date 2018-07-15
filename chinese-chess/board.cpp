@@ -120,25 +120,75 @@ namespace chinese_chess
 		// if dx > dy that means moving up or down first
 		// if moving up first, check if one up is obstructed vv for down
 		// if moving right, check if one right is obstructed vv for left
-		return (dy > dx && 
-				((dy < 0 && !board[px][py - 1]) || !board[px][py + 1])) || 
-			   (dx < 0 && !board[px - 1][py]) || !board[px + 1][py];
+		if (dy > dx)	
+			return (dy < 0 && !board[px][py - 1]) || !board[px][py + 1];
+		else
+			return (dx < 0 && !board[px - 1][py]) || !board[px + 1][py];
+	}
+
+	// TODO: totally gotta refactor this
+	bool Board::valid_chariot(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	{
+		// Condition: no piece in between current position and destination, and move in one direction
+		if (dx && dy)
+		{
+			return false;
+		}
+		else if (dx)	
+		{
+			for (int i = px + 1; i < px + dx; ++i)
+			{
+				if (board[i][py]) return false;
+			}
+		}
+		else
+		{
+			for (int i = py + 1; i < py + dy; ++i)
+			{
+				if (board[px][i]) return false;
+			}
+		}
+
 		return true;
 	}
 
 	bool Board::valid_cannon(shared_ptr<Piece> p, int px, int py, int dx, int dy)
 	{
-		// if a capture was to happen, check leaping piece
+		// cannot move diagonally
+		if (dx && dy)
+			return false;
+
+		// if a capture was to happen, must leap over something
 		if (board[px + dx][py + dy])
 		{
-			// TODO: how do you check this, what if the dx and dy were invalid	
+			// capture vertically
+			if (dx)
+			{
+				for (int i = px + 1; i < px + dx; ++i)
+				{
+					if (board[i][py]) return true;
+				}	
+			}
+			else
+			{
+				for (int i = py + 1; i < py + dy; ++i)
+				{
+					if (board[px][i]) return true;
+				}
+			}
+
+			return false; // capture did not happen
 		} 
+
+		// if no capture then it should be treated like a chariot
+		return valid_chariot(p, px, py, dx, dy);
 	}
 
-	// soldiers and chariots probably don't need validators
-	bool Board::valid_chariot(shared_ptr<Piece> p, int px, int py, int dx, int dy)
+	// TODO: maybe the responsibility of this check should be on the piece
+	bool Board::valid_soldier(shared_ptr<Piece> p, int px, int py, int dx, int dy)
 	{
-
+		// cannot go backwards ever
+		return dx >= 0;
 	}
 
 	void Board::move(int px, int py, int dx, int dy)	
@@ -163,16 +213,26 @@ namespace chinese_chess
 		{
 			case general:
 				if (valid_general(p, px, py, dx, dy)) break;
+				return;
 			case advisor:
 				if (valid_advisor(p, px, py, dx, dy)) break;
+				return;
 			case elephant:
 				if (valid_elephant(p, px, py, dx, dy)) break;
+				return;
 			case horse:
 				if (valid_horse(p, px, py, dx, dy)) break;
-		
-
+				return;
+			case chariot:
+				if (valid_chariot(p, px, py, dx, dy)) break;
+				return;
+			case cannon:
+				if (valid_cannon(p, px, py, dx, dy)) break;
+				return;
+			case soldier:
+     			if (valid_soldier(p, px, py, dx, dy)) break;
+				return;
 			default:
-				cout << "SWITCH BUMMER" << endl;
 				return; // cop out move, maybe a better error handling?
 		}
 
@@ -182,56 +242,6 @@ namespace chinese_chess
 		p->move(dx, dy);
 		board[px + dx][py + dy] = board[px][py];
 		board[px][py] = nullptr;
-
-		#if 0
-		else if (name == "Advisor")
-		{
-			p->move(dx, dy);
-
-			if (board[px + dx][py + dy])
-			{
-				board[px + dx][py + dy] = nullptr; // no need to delete shared_ptr
-			}
-			board[px + dx][py + dy] = board[px][py];
-			board[px][py] = nullptr;
-		}
-
-		else if (name == "Elephant")
-		{
-		
-			p->move(dx, dy);
-			if (board[px + dx][py + dy])
-			{
-				board[px + dx][py + dy] = nullptr; // no need to delete shared_ptr
-			}
-			board[px + dx][py + dy] = board[px][py];
-		}
-	
-		else if (name == "Horse")
-		{
-			// TODO: missing implementation
-		}
-
-		else if (name == "Cannon")
-		{
-			// If a capture is about to happen, there must be one piece in between
-			if (board[px + dx][py + dy])
-			{
-				// TODO: how do you check this, what if the dx and dy were invalid	
-			}
-		}
-		
-		// chariot and soldiers don't have any special exceptions
-		else
-		{
-			p->move(dx, dy); 
-			if (board[px + dx][py + dy])
-			{
-				board[px + dx][py + dy] = nullptr;
-			}
-			board[px + dx][py + dy] = board[px][py];
-		}
-		#endif
 	}
 
 	bool Board::in_box(int px, int py, bool red)
