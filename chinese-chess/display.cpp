@@ -4,6 +4,10 @@ namespace chinese_chess
 {
 	void Display::init()
 	{
+		sf::RenderWindow window(sf::VideoMode(width, height), "SFML");
+		sf::CircleShape shape(100.f);
+		shape.setFillColor(sf::Color::Green);
+
 		while (window.isOpen())
 		{
 			sf::Event event;
@@ -14,6 +18,7 @@ namespace chinese_chess
 			}
 
 			window.clear();
+			window.draw(shape);
 			window.display();
 		}
 	}
