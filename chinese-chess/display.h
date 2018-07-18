@@ -17,6 +17,8 @@ namespace chinese_chess
  		const sf::Color wood = sf::Color(252, 175, 62, 255);
 		const int width = 800;
 		const int height = 800;
+		const int top_border = 50;
+		const int left_border = 50;
 		Board board;
 	};
 }
