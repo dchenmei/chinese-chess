@@ -26,15 +26,36 @@ namespace chinese_chess
 			window.draw(rectangle);
 
 			// lines
-			//window.draw(line);
+
 			double board_space = height - (top_border * 2);
-			double num_lines = 9; // TODO: make this clear that one line is overlayed
-			for (int i = 1; i <= num_lines; ++i)
+			double num_hlines = 9; // TODO: make this clear that one line is overlayed
+			double num_vlines = 8;
+			for (int i = 1; i <= num_hlines; ++i)
 			{
-				sf::RectangleShape line(sf::Vector2f(width - (left_border * 2), 3));
-				line.setFillColor(sf::Color::Black);
-				line.setPosition(left_border, (i * (board_space / num_lines)) + top_border);
-				window.draw(line);
+				// horizontal
+				sf::RectangleShape hline(sf::Vector2f(height - (top_border * 2), 3));
+				hline.setFillColor(sf::Color::Black);
+				hline.setPosition(left_border, (i * (board_space / num_hlines)) + top_border);
+				window.draw(hline);
+			}
+
+			for (int i = 1; i < num_vlines; ++i)
+			{
+				// vertical top
+				// TODO: why 2.2
+				sf::RectangleShape vline(sf::Vector2f((width - (2.2 * board_space / num_hlines)) / 2, 3));
+				vline.setFillColor(sf::Color::Black);
+				vline.setPosition((i * (board_space) / num_vlines) + left_border, top_border);
+				vline.rotate(90);
+				window.draw(vline);
+
+				// vertical bottom
+				sf::RectangleShape vline_b(sf::Vector2f((width - (2.2 * board_space / num_hlines)) / 2, 3));
+				vline_b.setFillColor(sf::Color::Black);
+				vline_b.setPosition((i * (board_space) / num_vlines) + left_border, 
+									(5 * (board_space / num_hlines)) + top_border);
+				vline_b.rotate(90);
+				window.draw(vline_b);
 			}
 
 			window.display();
