@@ -58,6 +58,36 @@ namespace chinese_chess
 				window.draw(vline_b);
 			}
 
+			// cross lines
+
+			// top
+			sf::RectangleShape cline_one(sf::Vector2f(board_space / 3, 3));
+			cline_one.setFillColor(sf::Color::Black);
+			cline_one.setPosition((3 * board_space / num_vlines) + left_border, top_border);
+			cline_one.rotate(45);
+			window.draw(cline_one);
+
+			sf::RectangleShape cline_two(sf::Vector2f(board_space / 3, 3));
+			cline_two.setFillColor(sf::Color::Black);
+			cline_two.setPosition((5 * board_space / num_vlines) + left_border, top_border);
+			cline_two.rotate(135);
+			window.draw(cline_two);
+
+			// bottom
+			sf::RectangleShape cline_three(sf::Vector2f(board_space / 3, 3));
+			cline_three.setFillColor(sf::Color::Black);
+			cline_three.setPosition((3 * board_space / num_vlines) + left_border, 
+									 (7 * board_space / num_hlines) + top_border);
+			cline_three.rotate(45);
+			window.draw(cline_three);
+
+			sf::RectangleShape cline_four(sf::Vector2f(board_space / 3, 3));
+			cline_four.setFillColor(sf::Color::Black);
+			cline_four.setPosition((5 * board_space / num_vlines) + left_border, 
+									 (7 * board_space / num_hlines) + top_border);
+			cline_four.rotate(135);
+			window.draw(cline_four);
+
 			window.display();
 		}
 	}
