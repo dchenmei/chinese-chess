@@ -27,11 +27,13 @@ namespace chinese_chess
 
 			// lines
 			//window.draw(line);
-			for (int i = 1; i <= 8; ++i)
+			double board_space = height - (top_border * 2);
+			double num_lines = 9; // TODO: make this clear that one line is overlayed
+			for (int i = 1; i <= num_lines; ++i)
 			{
 				sf::RectangleShape line(sf::Vector2f(width - (left_border * 2), 3));
 				line.setFillColor(sf::Color::Black);
-				line.setPosition(left_border, i * ((height - (left_border * 2)) / 8.0));
+				line.setPosition(left_border, (i * (board_space / num_lines)) + top_border);
 				window.draw(line);
 			}
 
