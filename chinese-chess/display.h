@@ -15,10 +15,10 @@ namespace chinese_chess
 	  private:
 		const sf::Color brown = sf::Color(206, 92, 0, 255);
  		const sf::Color wood = sf::Color(252, 175, 62, 255);
-		const int width = 800;
-		const int height = 800;
-		const int top_border = 50;
-		const int left_border = 50;
+		const double width = 800;
+		const double height = 800;
+		const double top_border = 50;
+		const double left_border = 50;
 		Board board;
 	};
 }

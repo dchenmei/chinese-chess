@@ -35,14 +35,14 @@ namespace chinese_chess
 		board[length - 1][width - 5] = make_shared<General>(length - 1, width - 5, true);
 		
 		// Second to front line: cannons
-		for (int black = 2, red = length - 3, i = 1; i < width; i += 6)
+		for (unsigned int black = 2, red = length - 3, i = 1; i < width; i += 6)
 		{
 			board[black][i] = make_shared<Cannon>(black, i, false);
 			board[red][i] = make_shared<Cannon>(red, i, true);
 		}
 
 		// Front line: soldiers
-		for (int black = 3, red = length - 4, i = 0; i < width; i += 2)
+		for (unsigned int black = 3, red = length - 4, i = 0; i < width; i += 2)
 		{
 			board[black][i] = make_shared<Soldier>(black, i, false);
 			board[red][i] = make_shared<Soldier>(red, i, true);
