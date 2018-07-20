@@ -51,10 +51,17 @@ namespace chinese_chess
 		x += dx;
 		y += dy;
 		return true;
+
 	}
 
 	void Advisor::gen_moves()
 	{
+		// possible moves:
+		// four diagonals by one
+		moves.push_back(make_pair(x + 1, y + 1));
+		moves.push_back(make_pair(x - 1, y - 1));
+		moves.push_back(make_pair(x + 1, y - 1));
+		moves.push_back(make_pair(x - 1, y + 1));
 	}
 
 	// Elephant
@@ -78,6 +85,12 @@ namespace chinese_chess
 
 	void Elephant::gen_moves()
 	{
+		// possible moves:
+		// four diagonals by two
+		moves.push_back(make_pair(x + 2, y + 2));
+		moves.push_back(make_pair(x - 2, y - 2));
+		moves.push_back(make_pair(x + 2, y - 2));
+		moves.push_back(make_pair(x - 2, y + 2));
 	}
 
 	// Horse
@@ -100,6 +113,24 @@ namespace chinese_chess
 
 	void Horse::gen_moves()
 	{
+		// possible moves
+		// for each orthogonal direction, you can also have two more diagonals
+		
+		// uo
+		moves.push_back(make_pair(x - 2, y + 1));
+		moves.push_back(make_pair(x - 2, y - 1));
+		
+		// down
+		moves.push_back(make_pair(x + 2, y + 1));
+		moves.push_back(make_pair(x + 2 2, y - 1));
+		
+		// left
+		moves.push_back(make_pair(x + 1, y - 2));
+		moves.push_back(make_pair(x - 1, y - 2));
+
+		// right
+		moves.push_back(make_pair(x + 1, y + 2));
+		moves.push_back(make_pair(x - 1, y + 2));
 	}
 
 	// Chariot
