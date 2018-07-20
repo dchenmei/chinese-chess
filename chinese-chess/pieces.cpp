@@ -24,6 +24,16 @@ namespace chinese_chess
 		return true;
 	}
 
+	void General::gen_moves()
+	{
+		// possible moves
+		// one up, one down, one left, one right
+		moves.push_back(make_pair(x + 1, y));
+		moves.push_back(make_pair(x - 1, y));
+		moves.push_back(make_pair(x, y + 1));
+		moves.push_back(make_pair(x, y - 1));
+	}
+
 	// Advisor
 	bool Advisor::move(int dx, int dy)
 	{
@@ -41,6 +51,10 @@ namespace chinese_chess
 		x += dx;
 		y += dy;
 		return true;
+	}
+
+	void Advisor::gen_moves()
+	{
 	}
 
 	// Elephant
@@ -62,6 +76,10 @@ namespace chinese_chess
 		return true;
 	}
 
+	void Elephant::gen_moves()
+	{
+	}
+
 	// Horse
 	bool Horse::move(int dx, int dy)
 	{
@@ -80,6 +98,10 @@ namespace chinese_chess
 		return true;
 	}
 
+	void Horse::gen_moves()
+	{
+	}
+
 	// Chariot
 	bool Chariot::move(int dx, int dy)
 	{
@@ -92,6 +114,10 @@ namespace chinese_chess
 		return true;
 	}
 
+	void Chariot::gen_moves()
+	{
+	}
+
 	// Cannon
 	// TODO: refactor to chariot because same implementation
 	bool Cannon::move(int dx, int dy)
@@ -102,6 +128,10 @@ namespace chinese_chess
 		x += dx;
 		y += dy;	
 		return true;
+	}
+
+	void Cannon::gen_moves()
+	{
 	}
 
 	// Soldier
@@ -117,5 +147,9 @@ namespace chinese_chess
 		x += dx;
 		y += dy;
 		return true;
+	}
+
+	void Soldier::gen_moves()
+	{
 	}
 }
