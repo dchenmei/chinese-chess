@@ -26,7 +26,7 @@ namespace chinese_chess
 
 	void General::gen_moves()
 	{
-		// possible moves
+		// possible moves (not affected by color):
 		// one up, one down, one left, one right
 		moves.push_back(make_pair(x + 1, y));
 		moves.push_back(make_pair(x - 1, y));
@@ -51,12 +51,11 @@ namespace chinese_chess
 		x += dx;
 		y += dy;
 		return true;
-
 	}
 
 	void Advisor::gen_moves()
 	{
-		// possible moves:
+		// possible moves (not affected by color):
 		// four diagonals by one
 		moves.push_back(make_pair(x + 1, y + 1));
 		moves.push_back(make_pair(x - 1, y - 1));
@@ -85,7 +84,7 @@ namespace chinese_chess
 
 	void Elephant::gen_moves()
 	{
-		// possible moves:
+		// possible moves (not affected by color):
 		// four diagonals by two
 		moves.push_back(make_pair(x + 2, y + 2));
 		moves.push_back(make_pair(x - 2, y - 2));
@@ -113,7 +112,7 @@ namespace chinese_chess
 
 	void Horse::gen_moves()
 	{
-		// possible moves
+		// possible moves (not affected by color):
 		// for each orthogonal direction, you can also have two more diagonals
 		
 		// uo
@@ -122,7 +121,7 @@ namespace chinese_chess
 		
 		// down
 		moves.push_back(make_pair(x + 2, y + 1));
-		moves.push_back(make_pair(x + 2 2, y - 1));
+		moves.push_back(make_pair(x + 2, y - 1));
 		
 		// left
 		moves.push_back(make_pair(x + 1, y - 2));
@@ -147,6 +146,8 @@ namespace chinese_chess
 
 	void Chariot::gen_moves()
 	{
+		// possible moves (not affected by color):
+		// all the way to end of board up down left and right
 	}
 
 	// Cannon
@@ -163,6 +164,9 @@ namespace chinese_chess
 
 	void Cannon::gen_moves()
 	{
+		// possible moves (not affected by color):
+		// all the way to end of board up down left and right
+		// and also possible jumps for takeover
 	}
 
 	// Soldier
@@ -182,5 +186,18 @@ namespace chinese_chess
 
 	void Soldier::gen_moves()
 	{
+		// possible moves (some affected by color):
+		// up (depends on color)
+		if (red)
+			moves.push_back(make_pair(x - 1, y));
+		else
+			moves.push_back(make_pair(x + 1, y));
+
+		// left and right if across river
+		if (across_river)
+		{
+			moves.push_back(make_pair(x, y - 1));	
+			moves.push_back(make_pair(x, y + 1));
+		}
 	}
 }
