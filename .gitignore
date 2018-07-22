@@ -6,3 +6,6 @@ main.cpp
 
 ## vi swp files
 *.swp
+
+## obj files
+*.o
