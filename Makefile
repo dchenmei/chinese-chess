@@ -7,4 +7,4 @@ main-compile:
 	g++ -c -std=c++11 -Wall main.cpp pieces.cpp board.cpp display.cpp 
 
 clean:
-	rm main 
+	rm app main.o pieces.o board.o display.o 

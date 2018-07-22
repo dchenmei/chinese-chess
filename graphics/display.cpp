@@ -18,6 +18,7 @@ namespace chinese_chess
 			sf::Event event;
 			while (window.pollEvent(event))	
 			{
+				// close window by clicking "x" 
 				if (event.type == sf::Event::Closed)
 					window.close();	
 			}
