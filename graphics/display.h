@@ -18,6 +18,8 @@ namespace chinese_chess
 
 	  private:
 		void draw_pieces();
+		void draw_board();
+		void draw_lines();
 
 		const sf::Color brown = sf::Color(206, 92, 0, 255);
  		const sf::Color wood = sf::Color(252, 175, 62, 255);
