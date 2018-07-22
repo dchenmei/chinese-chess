@@ -2,9 +2,23 @@
 
 namespace chinese_chess
 {
+	void Display::draw_pieces()
+	{
+		sf::CircleShape p(50);
+		p.setFillColor(sf::Color::Black);
+		p.setOutlineThickness(1);
+		p.setOutlineColor(sf::Color::White);
+		p.setPosition(0, 0);
+
+		// black side
+
+
+		// red side
+	}
+
 	void Display::init()
 	{
-		sf::RenderWindow window(sf::VideoMode(width, height), "Chinese Chess");
+		//sf::RenderWindow window(sf::VideoMode(width, height), "Chinese Chess");
 
 		// Board overlay or physically actual board
 		sf::RectangleShape rectangle(sf::Vector2f(width - (left_border * 2), height - (top_border * 2)));
@@ -13,18 +27,18 @@ namespace chinese_chess
 		rectangle.setOutlineThickness(3);
 		rectangle.setOutlineColor(sf::Color::Black);
 
-		while (window.isOpen())
+		while (window->isOpen())
 		{
 			sf::Event event;
-			while (window.pollEvent(event))	
+			while (window->pollEvent(event))	
 			{
 				// close window by clicking "x" 
 				if (event.type == sf::Event::Closed)
-					window.close();	
+					window->close();	
 			}
 
-			window.clear(brown);
-			window.draw(rectangle);
+			window->clear(brown);
+			window->draw(rectangle);
 
 			// lines
 
@@ -37,7 +51,7 @@ namespace chinese_chess
 				sf::RectangleShape hline(sf::Vector2f(height - (top_border * 2), 3));
 				hline.setFillColor(sf::Color::Black);
 				hline.setPosition(left_border, (i * (board_space / num_hlines)) + top_border);
-				window.draw(hline);
+				window->draw(hline);
 			}
 
 			for (int i = 1; i < num_vlines; ++i)
@@ -48,7 +62,7 @@ namespace chinese_chess
 				vline.setFillColor(sf::Color::Black);
 				vline.setPosition((i * (board_space) / num_vlines) + left_border, top_border);
 				vline.rotate(90);
-				window.draw(vline);
+				window->draw(vline);
 
 				// vertical bottom
 				sf::RectangleShape vline_b(sf::Vector2f((width - (2.2 * board_space / num_hlines)) / 2, 3));
@@ -56,7 +70,7 @@ namespace chinese_chess
 				vline_b.setPosition((i * (board_space) / num_vlines) + left_border, 
 									(5 * (board_space / num_hlines)) + top_border);
 				vline_b.rotate(90);
-				window.draw(vline_b);
+				window->draw(vline_b);
 			}
 
 			// cross lines
@@ -66,13 +80,13 @@ namespace chinese_chess
 			cline_one.setFillColor(sf::Color::Black);
 			cline_one.setPosition((3 * board_space / num_vlines) + left_border, top_border);
 			cline_one.rotate(45);
-			window.draw(cline_one);
+			window->draw(cline_one);
 
 			sf::RectangleShape cline_two(sf::Vector2f(board_space / 3, 3));
 			cline_two.setFillColor(sf::Color::Black);
 			cline_two.setPosition((5 * board_space / num_vlines) + left_border, top_border);
 			cline_two.rotate(135);
-			window.draw(cline_two);
+			window->draw(cline_two);
 
 			// bottom
 			sf::RectangleShape cline_three(sf::Vector2f(board_space / 3, 3));
@@ -80,16 +94,18 @@ namespace chinese_chess
 			cline_three.setPosition((3 * board_space / num_vlines) + left_border, 
 									 (7 * board_space / num_hlines) + top_border);
 			cline_three.rotate(45);
-			window.draw(cline_three);
+			window->draw(cline_three);
 
 			sf::RectangleShape cline_four(sf::Vector2f(board_space / 3, 3));
 			cline_four.setFillColor(sf::Color::Black);
 			cline_four.setPosition((5 * board_space / num_vlines) + left_border, 
 									 (7 * board_space / num_hlines) + top_border);
 			cline_four.rotate(135);
-			window.draw(cline_four);
+			window->draw(cline_four);
 
-			window.display();
+			// draw chess pieces
+
+			window->display();
 		}
 	}
 }
