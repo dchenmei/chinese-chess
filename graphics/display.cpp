@@ -4,6 +4,12 @@ namespace chinese_chess
 {
 	void Display::draw_pieces()
 	{
+		const double radius = 30;
+		sf::CircleShape shape(radius);
+		shape.setFillColor(sf::Color::Red);
+		shape.setPosition(50 - radius, 50 - radius);
+		window->draw(shape);
+		#if 0
   		// offset (50, 50) is (0, 0) on board
 		// walk through board and draw the pieces' position w/ offset in mind
 		// TODO: why the constants
@@ -14,6 +20,7 @@ namespace chinese_chess
 
 			}
 		}
+		#endif
 	}
 	
 	void Display::draw_board()
