@@ -56,7 +56,8 @@ namespace chinese_chess
 		//  note: counting is from 0
 		bool in_board(int, int);
 
-
+		// get reference to board
+		const vector<vector<shared_ptr<Piece>>>& get_board() { return board; }
 
 	  private:
 		const unsigned int width;
