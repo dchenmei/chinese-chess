@@ -4,23 +4,24 @@ namespace chinese_chess
 {
 	void Display::draw_pieces()
 	{
-		const double radius = 30;
+		const double radius = 30, init_x = 50, init_y = 50, board_space = height - (top_border * 2);
 		sf::CircleShape shape(radius);
 		shape.setFillColor(sf::Color::Red);
-		shape.setPosition(50 - radius, 50 - radius);
-		window->draw(shape);
-		#if 0
-  		// offset (50, 50) is (0, 0) on board
+		auto b = board.get_board();
 		// walk through board and draw the pieces' position w/ offset in mind
-		// TODO: why the constants
-		for (int i = 0; i < 9; ++i)
+		for (int i = 0; i < b.size(); ++i)
 		{
-			for (int j = 0; j < 10; ++j)
+			for (int j = 0; j < b[i].size(); ++j)
 			{
-
+				if (b[i][j])
+				{
+					double x = (j * board_space / num_vlines) + left_border;
+					double y  = (i * board_space / num_hlines) + top_border;
+					shape.setPosition(x - radius, y - radius);
+					window->draw(shape);
+				}
 			}
 		}
-		#endif
 	}
 	
 	void Display::draw_board()
@@ -41,8 +42,6 @@ namespace chinese_chess
 	void Display::draw_lines()
 	{
 			double board_space = height - (top_border * 2);
-			double num_hlines = 9; // TODO: make this clear that one line is overlayed
-			double num_vlines = 8;
 
 			// note:
 			// Because lines only serve visual purposes, object reuse is okay
