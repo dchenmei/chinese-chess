@@ -8,9 +8,9 @@ namespace chinese_chess
 		sf::CircleShape shape(radius);
 		auto b = board.get_board();
 		// walk through board and draw the pieces' position w/ offset in mind
-		for (int i = 0; i < b.size(); ++i)
+		for (uint i = 0; i < b.size(); ++i)
 		{
-			for (int j = 0; j < b[i].size(); ++j)
+			for (uint j = 0; j < b[i].size(); ++j)
 			{
 				if (b[i][j])
 				{
