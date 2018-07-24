@@ -23,10 +23,13 @@ namespace chinese_chess
 
 		const sf::Color brown = sf::Color(206, 92, 0, 255);
  		const sf::Color wood = sf::Color(252, 175, 62, 255);
+		const sf::Color bamboo = sf::Color(254, 218, 164, 255);
 		const double width = 800;
 		const double height = 800;
 		const double top_border = 50;
 		const double left_border = 50;
+		const double num_hlines = 9; // one line is covered by the bottom border (so 9 not 8)
+		const double num_vlines = 8;
 		shared_ptr<sf::RenderWindow> window;
 		Board board;
 	};

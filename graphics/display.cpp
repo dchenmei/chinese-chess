@@ -6,6 +6,8 @@ namespace chinese_chess
 	{
 		const double radius = 30, board_space = height - (top_border * 2);
 		sf::CircleShape shape(radius);
+		shape.setFillColor(bamboo);
+		shape.setOutlineThickness(5);
 		auto b = board.get_board();
 		// walk through board and draw the pieces' position w/ offset in mind
 		for (uint i = 0; i < b.size(); ++i)
@@ -14,7 +16,8 @@ namespace chinese_chess
 			{
 				if (b[i][j])
 				{
-					shape.setFillColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
+					
+					shape.setOutlineColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
 					double x = (j * board_space / num_vlines) + left_border;
 					double y  = (i * board_space / num_hlines) + top_border;
 					shape.setPosition(x - radius, y - radius);
