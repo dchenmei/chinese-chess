@@ -13,8 +13,10 @@ namespace chinese_chess
 	class Display
 	{
 	  public:
-		Display(Board b): window(make_shared<sf::RenderWindow>(sf::VideoMode(width, height), "Chinese Chess")), board(b) {}
-		void init();
+		Display(shared_ptr<Board> b): window(make_shared<sf::RenderWindow>(sf::VideoMode(width, height), "Chinese Chess")), board(b) {}
+		void draw();
+		shared_ptr<sf::RenderWindow> get_window() { return window; }
+		bool window_open() { return window->isOpen(); }
 
 	  private:
 		void draw_pieces();
@@ -31,7 +33,7 @@ namespace chinese_chess
 		const double num_hlines = 9; // one line is covered by the bottom border (so 9 not 8)
 		const double num_vlines = 8;
 		shared_ptr<sf::RenderWindow> window;
-		Board board;
+		shared_ptr<Board> board;
 	};
 }
 

@@ -8,7 +8,16 @@ namespace chinese_chess
 		sf::CircleShape shape(radius);
 		shape.setFillColor(bamboo);
 		shape.setOutlineThickness(5);
-		auto b = board.get_board();
+
+		sf::Font font;
+		if (!font.loadFromFile("graphics/imperial.TTF")) //TODO: refactor into different dir?
+			return;
+		sf::Text txt;
+		txt.setFont(font);
+		txt.setCharacterSize(24);
+		txt.setString(L"汉");
+		window->draw(txt);
+		auto b = board->get_board();
 		// walk through board and draw the pieces' position w/ offset in mind
 		for (uint i = 0; i < b.size(); ++i)
 		{
@@ -96,25 +105,20 @@ namespace chinese_chess
 			window->draw(cline);
 	}
 
-	void Display::init()
+	void Display::draw()
 	{
-		while (window->isOpen())
+		sf::Event event;
+		if (window->pollEvent(event))
 		{
-			sf::Event event;
-			while (window->pollEvent(event))	
-			{
-				// close window by clicking "x" 
-				if (event.type == sf::Event::Closed)
-					window->close();	
+			// close window by clicking "x" 
+			if (event.type == sf::Event::Closed)
+				window->close();	
 
-				// if click and move and valid, redraw the piece
-			}
-
-			draw_board();
-			draw_lines();
-			draw_pieces();
-
-			window->display();
 		}
+
+		draw_board();
+		draw_lines();
+		draw_pieces();
+		window->display();
 	}
 }
