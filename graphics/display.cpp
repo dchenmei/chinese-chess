@@ -6,17 +6,7 @@ namespace chinese_chess
 	{
 		const double radius = 30, board_space = height - (top_border * 2);
 		sf::CircleShape shape(radius);
-		shape.setFillColor(bamboo);
-		shape.setOutlineThickness(5);
-
-		sf::Font font;
-		if (!font.loadFromFile("graphics/imperial.TTF")) //TODO: refactor into different dir?
-			return;
-		sf::Text txt;
-		txt.setFont(font);
-		txt.setCharacterSize(24);
-		txt.setString(L"汉");
-		window->draw(txt);
+		sf::Texture texture;
 		auto b = board->get_board();
 		// walk through board and draw the pieces' position w/ offset in mind
 		for (uint i = 0; i < b.size(); ++i)
@@ -25,8 +15,55 @@ namespace chinese_chess
 			{
 				if (b[i][j])
 				{
+					// load appropriate image depending on piece
+					switch(b[i][j]->get_id())
+					{
+						case general:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/general-red.png" :
+												  "graphics/img/general-black.png"));
+							break;
 					
-					shape.setOutlineColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
+						case advisor:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/advisor-red.png" :
+												  "graphics/img/advisor-black.png"));
+							break;
+		
+						case elephant:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/elephant-red.png" :
+												  "graphics/img/elephant-black.png"));
+							break;
+						case horse:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/horse-red.png" :
+												  "graphics/img/horse-black.png"));
+							break;
+						case chariot:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/chariot-red.png" :
+												  "graphics/img/chariot-black.png"));
+							break;
+						case cannon:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/cannon-red.png" :
+												  "graphics/img/cannon-black.png"));
+							break;
+						case soldier:
+							texture.loadFromFile((b[i][j]->is_red() ? 
+												  "graphics/img/soldier-red.png" :
+												  "graphics/img/soldier-black.png"));
+							break;
+		
+						default:
+							return; // TODO: maybe throw some type of error
+
+
+					}
+					shape.setTexture(&texture);
+					
+					//shape.setOutlineColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
 					double x = (j * board_space / num_vlines) + left_border;
 					double y  = (i * board_space / num_hlines) + top_border;
 					shape.setPosition(x - radius, y - radius);
