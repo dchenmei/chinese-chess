@@ -59,10 +59,15 @@ namespace chinese_chess
 						default:
 							return; // TODO: maybe throw some type of error
 
-
 					}
 					shape.setTexture(&texture);
-					
+
+					// if selected, highlight
+					if (b[i][j]->is_selected())
+						shape.setFillColor((b[i][j]->is_red() ? 
+											sf::Color::Red : 
+											sf::Color(128, 128, 128, 255)));
+						
 					//shape.setOutlineColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
 					double x = (j * board_space / num_vlines) + left_border;
 					double y  = (i * board_space / num_hlines) + top_border;
