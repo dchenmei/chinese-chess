@@ -195,19 +195,19 @@ namespace chinese_chess
 		return dx >= 0;
 	}
 
-	void Board::move(int px, int py, int dx, int dy)	
+	bool Board::move(int px, int py, int dx, int dy)	
 	{
 		// check if there is a piece at px py
 		if (!board[px][py])
-			return; // maybe throw error or bubble it
+			return false; // maybe throw error or bubble it
 		
 		// check if next position is in board
 		if (!in_board(px + dx, py + dy))
-			return;
+			return false;
 
 		// check if friendly piece in the way
 		if (board[px + dx][py + dy] && (board[px][py]->is_red() == board[px + dx][py + dy]->is_red() ))
-			return;
+			return false;
 
 		// get the actual piece
 		shared_ptr<Piece> p = board[px][py];
@@ -217,27 +217,27 @@ namespace chinese_chess
 		{
 			case general:
 				if (valid_general(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			case advisor:
 				if (valid_advisor(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			case elephant:
 				if (valid_elephant(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			case horse:
 				if (valid_horse(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			case chariot:
 				if (valid_chariot(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			case cannon:
 				if (valid_cannon(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			case soldier:
      			if (valid_soldier(p, px, py, dx, dy)) break;
-				return;
+				return false;
 			default:
-				return; // cop out move, maybe a better error handling?
+				return false; // cop out move, maybe a better error handling?
 		}
 
 		// update board side (after piece side is validated)
@@ -249,6 +249,7 @@ namespace chinese_chess
 			board[px][py] = nullptr;
 		}
 
+		return true;
 		// if piece side move failed, don't do anything
 		// maybe throw error is a better idea?
 	}
@@ -269,4 +270,11 @@ namespace chinese_chess
 	{
 		return px > -1 && px < 9 && py > -1 && py < 10;
 	}
+
+	/*
+	bool Board::in_board(bool x, bool y, bool width, bool height)
+	{
+			
+	}
+	*/
 }

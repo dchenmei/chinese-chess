@@ -40,8 +40,7 @@ namespace chinese_chess
 		bool valid_soldier(shared_ptr<Piece>, int, int, int, int);
 
 		// move piece at px py by dx dy
-		void move(int, int, int, int);
-
+		bool move(int, int, int, int);
 
 		// EZ Check functions useful for pieces to validate their move
 		bool in_box(int, int, bool);
@@ -55,6 +54,9 @@ namespace chinese_chess
 		//  * it goes beyond the edges of the board (9x10 dimension)
 		//  note: counting is from 0
 		bool in_board(int, int);
+
+		// in board method adjusted by width and height
+		bool in_board(double, double, double, double);
 
 		// get reference to board
 		const vector<vector<shared_ptr<Piece>>>& get_board() { return board; }
