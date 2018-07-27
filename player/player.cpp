@@ -4,25 +4,41 @@ namespace chinese_chess
 {
 	void Player::play()
 	{	
-		bool prev_pressed = false, pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-		if (pressed && !prev_pressed)
+		bool pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+		if (pressed)
 		{
 			sf::Vector2i pos = sf::Mouse::getPosition(*window);
-			cout << pos.x << " " << pos.y << endl;
 	
 			// valid click if:
 			// - inside window
 			// - inside board area
-			cout << pos_to_coord(pos).x << " " << pos_to_coord(pos).y <<  endl;
-		}
+			sf::Vector2i coord = pos_to_coord(pos);
 
-		prev_pressed = pressed; // if 
+			/*
+			cout << "Conversion" << endl;
+			cout << pos.x << " " << pos.y << endl;
+			cout << coord.x << " " << coord.y << endl;
+			*/
+
+			// invalid
+			if (coord.x == -1 && coord.y == -1)
+				return;
+		
+			auto b = board->get_board();
+			// if there is a piece
+			// TODO: check to prevent selecting enemy piece
+			if (b[coord.y][coord.x])
+			{
+				b[coord.y][coord.x]->select();
+			}
+		}
 	}
 
 	sf::Vector2i Player::pos_to_coord(sf::Vector2i pos)
 	{
 		// TODO: temp hardcode constants
-		const int board_x_min = 50, board_y_min = 50, board_x_max = 750, board_y_max = 750;
+		// note: they don't match up coordinates because sensitivity bug
+		const int board_x_min = 40, board_y_min = 40, board_x_max = 760, board_y_max = 760;
 		//const int river_top = 362, river_bottom = 437;
 		const int pos_x = pos.x, pos_y = pos.y;
 		
@@ -36,8 +52,8 @@ namespace chinese_chess
 
 		// TODO: document the math
 		// else convert to coordinates
-		int new_x = ((pos_x - 50) * 9) / 700;
-		int new_y = ((pos_y - 50) * 8) / 700;
+		int new_x = ((pos_x - 50) * 8) / 700;
+		int new_y = ((pos_y - 50) * 9) / 700;
 		return sf::Vector2i(new_x, new_y);	
 	}
 }
