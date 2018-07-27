@@ -64,9 +64,16 @@ namespace chinese_chess
 
 					// if selected, highlight
 					if (b[i][j]->is_selected())
+					{
 						shape.setFillColor((b[i][j]->is_red() ? 
 											sf::Color::Red : 
 											sf::Color(128, 128, 128, 255)));
+					}
+					else
+					{
+						shape.setFillColor(sf::Color::White);
+					}
+
 						
 					//shape.setOutlineColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
 					double x = (j * board_space / num_vlines) + left_border;
