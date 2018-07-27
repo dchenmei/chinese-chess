@@ -8,6 +8,7 @@
 
 using std::vector;
 using std::shared_ptr;
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::cout;
 using std::endl;

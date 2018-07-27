@@ -191,8 +191,7 @@ namespace chinese_chess
 	// TODO: maybe the responsibility of this check should be on the piece
 	bool Board::valid_soldier(shared_ptr<Piece> p, int px, int py, int dx, int dy)
 	{
-		// cannot go backwards ever
-		return dx >= 0;
+		return true; // nothing for board to check
 	}
 
 	bool Board::move(int px, int py, int dx, int dy)	
@@ -208,6 +207,7 @@ namespace chinese_chess
 		// check if friendly piece in the way
 		if (board[px + dx][py + dy] && (board[px][py]->is_red() == board[px + dx][py + dy]->is_red() ))
 			return false;
+
 
 		// get the actual piece
 		shared_ptr<Piece> p = board[px][py];
@@ -240,15 +240,19 @@ namespace chinese_chess
 				return false; // cop out move, maybe a better error handling?
 		}
 
+
 		// update board side (after piece side is validated)
 		// * reference piece in new position (kills enemy piece if any due to smart ptr)
 		// * resets the original position
-		if (p->move(dx, dy))
-		{
-			board[px + dx][py + dy] = board[px][py];
-			board[px][py] = nullptr;
-		}
+		if (!(p->move(dx, dy))) return false;
 
+		board[px + dx][py + dy] = board[px][py];
+		board[px][py] = nullptr;
+
+		// cross river
+		if (id == soldier && across_river(px + dx, py + dy, p->is_red()))
+			dynamic_pointer_cast<Soldier>(p)->cross_river();
+		
 		return true;
 		// if piece side move failed, don't do anything
 		// maybe throw error is a better idea?
