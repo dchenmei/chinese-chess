@@ -172,13 +172,25 @@ namespace chinese_chess
 	// Soldier
 	bool Soldier::move(int dx, int dy)
 	{
-		// Not valid if 
-		// - two directions at a time
-		// - moving backwards
-		// - moving horizontally before crossing river
-		if ((!dx && dy) || dx < 0 || (!across_river && dy))
+		// Not valid if:
+				
+		// moving horizontally before crossing river
+		if (!across_river && dy != 0)
 			return false;
 
+		// moving backwards
+		if ((red && dx >= 0) || (!red && dx <= 0))
+			return false;
+
+		// more than one direction at a time
+		if (dx && dy)
+			return false;
+
+		// moves are more than one point
+		if (abs(dx) != 1 && abs(dy) != 1) // TODO: check
+			return false;
+
+		// Else we are good to go:
 		x += dx;
 		y += dy;
 		return true;

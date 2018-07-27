@@ -34,12 +34,14 @@ namespace chinese_chess
 	class Piece
 	{
 	  public:
-		Piece (int i, int px, int py, string n, bool r): id(i), x(px), y(py), name(n), red(r) {}
+		Piece (int i, int px, int py, string n, bool r): id(i), x(px), y(py), name(n), red(r), selected(false) {}
 		string get_name() { return name; }
 		int get_id() { return id; }
 		int get_x() { return x; }
 		int get_y() { return y; }
 		bool is_red() { return red; }
+		bool is_selected() { return selected; }
+		void select() { selected = !selected; }
 		virtual bool move(int, int) = 0;
 		virtual void gen_moves() = 0;
 
@@ -49,6 +51,7 @@ namespace chinese_chess
 		int y;
 		string name;
 		bool red;
+		bool selected;
 		vector<pair<int, int>> moves;
       
 	};
