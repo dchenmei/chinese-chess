@@ -14,12 +14,6 @@ namespace chinese_chess
 			// - inside board area
 			sf::Vector2i coord = pos_to_coord(pos);
 
-			/*
-			cout << "Conversion" << endl;
-			cout << pos.x << " " << pos.y << endl;
-			cout << coord.x << " " << coord.y << endl;
-			*/
-
 			// invalid
 			if (coord.x == -1 && coord.y == -1)
 				return;
@@ -27,9 +21,16 @@ namespace chinese_chess
 			auto b = board->get_board();
 			// if there is a piece
 			// TODO: check to prevent selecting enemy piece
-			if (b[coord.y][coord.x])
+			// only one select at a time unless unselecting a piece
+
+			// Proceed only if piece is valid and of the right color
+			if (b[coord.y][coord.x] && (b[coord.y][coord.x]->is_red() == red_turn))
 			{
-				b[coord.y][coord.x]->select();
+				if (b[coord.y][coord.x]->is_selected() || !selected)
+				{
+					b[coord.y][coord.x]->select();
+					selected = !selected;
+				}
 			}
 		}
 	}
