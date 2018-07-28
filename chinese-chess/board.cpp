@@ -249,7 +249,7 @@ namespace chinese_chess
 		board[px + dx][py + dy] = board[px][py];
 		board[px][py] = nullptr;
 
-		// cross river
+		// cross river for soldier
 		if (id == soldier && across_river(px + dx, py + dy, p->is_red()))
 			dynamic_pointer_cast<Soldier>(p)->cross_river();
 		
@@ -267,7 +267,7 @@ namespace chinese_chess
 
 	bool Board::across_river(int px, int py, bool red)
 	{
-		return (red && px < 5) || px > 4;
+		return (red && px < 5 ) || (!red && px > 4);
 	}
 
 	bool Board::in_board(int px, int py)
