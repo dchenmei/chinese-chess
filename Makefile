@@ -6,8 +6,8 @@ INC = -I chinese-chess -I graphics -I player
 
 all: clean main
 
-main: main.o pieces.o board.o display.o 
-	$(CXX) $(CXXFLAGS) main.o pieces.o board.o display.o -o main  $(SFML-FLAGS)
+main: main.o pieces.o board.o display.o player.o
+	$(CXX) $(CXXFLAGS) main.o pieces.o board.o display.o player.o -o main  $(SFML-FLAGS)
 
 main.o:
 	$(CXX) $(CXXFLAGS) $(INC) -c main.cpp
@@ -21,5 +21,8 @@ board.o:
 display.o:
 	$(CXX) $(CXXFLAGS) $(INC) -c graphics/display.cpp
 
+player.o:
+	$(CXX) $(CXXFLAGS) $(INC) -c player/player.cpp
+
 clean:
-	rm main main.o pieces.o board.o display.o 
+	rm main main.o pieces.o board.o display.o player.o
