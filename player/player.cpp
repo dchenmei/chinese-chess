@@ -4,54 +4,67 @@ namespace chinese_chess
 {
 	void Player::play()
 	{	
-		bool pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+		bool pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left); // get click if any
+
+		// process click
 		if (pressed)
 		{
+			// get position and convert it to board coordinates
 			sf::Vector2i pos = sf::Mouse::getPosition(*window);
-	
-			// valid click if:
-			// - inside window
-			// - inside board area
 			sf::Vector2i coord = pos_to_coord(pos);
 
-			// invalid
+			// invalid coordinate, invalidate current click
 			if (coord.x == -1 && coord.y == -1)
 				return;
 		
-			auto b = board->get_board();
-			// if there is a piece
-			// TODO: check to prevent selecting enemy piece
-			// only one select at a time unless unselecting a piece
+			// Proceed only if coordinate is valid
+			auto b = board->get_board(); // reference of board vector 
 
-			// Proceed only if piece is valid and of the right color
+			// A piece exist in coordinate and is correct color for current turn
 			if (b[coord.y][coord.x] && (b[coord.y][coord.x]->is_red() == red_turn))
 			{
+				// Select again if:
+				// - not selected
+				// - double click (unselect)
 				if (b[coord.y][coord.x]->is_selected() || !selected)
 				{
 					b[coord.y][coord.x]->select();
-					selected = !selected;
+	
+					// if currently selected, remember the piece
+					selected = b[coord.y][coord.x]->is_selected() ? b[coord.y][coord.x] : nullptr;
 				}
 			}
+			else if (selected) // time to move if a piece is selected 
+			{
+				int x = selected->get_x(), y = selected->get_y();
+				bool moved = board->move(x, y, coord.y - x, coord.x - y); // pass move to board
+					
+				// if move successful, reset select and switch turns
+				if (moved)
+				{
+					selected->select();
+					selected = nullptr;
+					red_turn = !red_turn;
+				}
+			}
+
+			// else not a valid move
 		}
 	}
 
 	sf::Vector2i Player::pos_to_coord(sf::Vector2i pos)
 	{
-		// TODO: temp hardcode constants
-		// note: they don't match up coordinates because sensitivity bug
+		// TODO: Derive constants from board (model) instead of hardcoding
 		const int board_x_min = 40, board_y_min = 40, board_x_max = 760, board_y_max = 760;
-		//const int river_top = 362, river_bottom = 437;
 		const int pos_x = pos.x, pos_y = pos.y;
 		
-		// TODO: ignore river checking because it might be too sensitive
-		// if not in boara or between riverd, return (-1, -1)
-		if ((pos_x > board_x_max || pos_x < board_x_min 
-			|| pos_y > board_y_max || pos_y < board_y_min)) //|| (pos_y > river_top && pos_y < river_bottom))
+		// if selection is outside of board, then return (-1, -1)
+		if ((pos_x > board_x_max || pos_x < board_x_min || pos_y > board_y_max || pos_y < board_y_min)) 
 		{
 			return sf::Vector2i(-1, -1);
 		}
 
-		// TODO: document the math
+		// TODO: same as above
 		// else convert to coordinates
 		int new_x = ((pos_x - 50) * 8) / 700;
 		int new_y = ((pos_y - 50) * 9) / 700;
