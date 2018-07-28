@@ -179,7 +179,7 @@ namespace chinese_chess
 			return false;
 
 		// moving backwards
-		if ((red && dx >= 0) || (!red && dx <= 0))
+		if ((red && dx > 0) || (!red && dx < 0))
 			return false;
 
 		// more than one direction at a time
