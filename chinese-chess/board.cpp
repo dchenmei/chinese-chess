@@ -140,14 +140,16 @@ namespace chinese_chess
 		}
 		else if (dx)	
 		{
-			for (int i = px + 1; i < px + dx; ++i)
+			int inc = dx / abs(dx); // either 1 or -1 which is the increment 
+			for (int i = px + inc; i != px + dx; i += inc) // iterate up to position
 			{
 				if (board[i][py]) return false;
 			}
 		}
 		else
 		{
-			for (int i = py + 1; i < py + dy; ++i)
+			int inc = dy / abs(dy);
+			for (int i = py + inc; i != py + dy; i += inc)
 			{
 				if (board[px][i]) return false;
 			}
