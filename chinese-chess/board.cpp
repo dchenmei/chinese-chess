@@ -170,14 +170,16 @@ namespace chinese_chess
 			// capture vertically
 			if (dx)
 			{
-				for (int i = px + 1; i < px + dx; ++i)
+				int inc = dx / abs(dx);
+				for (int i = px + inc; i != px + dx; i += inc)
 				{
 					if (board[i][py]) return true;
 				}	
 			}
 			else
 			{
-				for (int i = py + 1; i < py + dy; ++i)
+				int inc = dy / abs(dy);
+				for (int i = py + 1; i != py + dy; i += inc)
 				{
 					if (board[px][i]) return true;
 				}
