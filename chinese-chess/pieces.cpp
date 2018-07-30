@@ -24,16 +24,6 @@ namespace chinese_chess
 		return true;
 	}
 
-	void General::gen_moves()
-	{
-		// possible moves (not affected by color):
-		// one up, one down, one left, one right
-		moves.push_back(make_pair(x + 1, y));
-		moves.push_back(make_pair(x - 1, y));
-		moves.push_back(make_pair(x, y + 1));
-		moves.push_back(make_pair(x, y - 1));
-	}
-
 	// Advisor
 	bool Advisor::move(int dx, int dy)
 	{
@@ -53,16 +43,6 @@ namespace chinese_chess
 		return true;
 	}
 
-	void Advisor::gen_moves()
-	{
-		// possible moves (not affected by color):
-		// four diagonals by one
-		moves.push_back(make_pair(x + 1, y + 1));
-		moves.push_back(make_pair(x - 1, y - 1));
-		moves.push_back(make_pair(x + 1, y - 1));
-		moves.push_back(make_pair(x - 1, y + 1));
-	}
-
 	// Elephant
 	bool Elephant::move(int dx, int dy)
 	{
@@ -80,16 +60,6 @@ namespace chinese_chess
 		x += dx;
 		y += dy;
 		return true;
-	}
-
-	void Elephant::gen_moves()
-	{
-		// possible moves (not affected by color):
-		// four diagonals by two
-		moves.push_back(make_pair(x + 2, y + 2));
-		moves.push_back(make_pair(x - 2, y - 2));
-		moves.push_back(make_pair(x + 2, y - 2));
-		moves.push_back(make_pair(x - 2, y + 2));
 	}
 
 	// Horse
@@ -117,28 +87,6 @@ namespace chinese_chess
 		return false;
 	}
 
-	void Horse::gen_moves()
-	{
-		// possible moves (not affected by color):
-		// for each orthogonal direction, you can also have two more diagonals
-		
-		// uo
-		moves.push_back(make_pair(x - 2, y + 1));
-		moves.push_back(make_pair(x - 2, y - 1));
-		
-		// down
-		moves.push_back(make_pair(x + 2, y + 1));
-		moves.push_back(make_pair(x + 2, y - 1));
-		
-		// left
-		moves.push_back(make_pair(x + 1, y - 2));
-		moves.push_back(make_pair(x - 1, y - 2));
-
-		// right
-		moves.push_back(make_pair(x + 1, y + 2));
-		moves.push_back(make_pair(x - 1, y + 2));
-	}
-
 	// Chariot
 	bool Chariot::move(int dx, int dy)
 	{
@@ -151,12 +99,6 @@ namespace chinese_chess
 		return true;
 	}
 
-	void Chariot::gen_moves()
-	{
-		// possible moves (not affected by color):
-		// all the way to end of board up down left and right
-	}
-
 	// Cannon
 	// TODO: refactor to chariot because same implementation
 	bool Cannon::move(int dx, int dy)
@@ -167,13 +109,6 @@ namespace chinese_chess
 		x += dx;
 		y += dy;	
 		return true;
-	}
-
-	void Cannon::gen_moves()
-	{
-		// possible moves (not affected by color):
-		// all the way to end of board up down left and right
-		// and also possible jumps for takeover
 	}
 
 	// Soldier
@@ -201,22 +136,5 @@ namespace chinese_chess
 		x += dx;
 		y += dy;
 		return true;
-	}
-
-	void Soldier::gen_moves()
-	{
-		// possible moves (some affected by color):
-		// up (depends on color)
-		if (red)
-			moves.push_back(make_pair(x - 1, y));
-		else
-			moves.push_back(make_pair(x + 1, y));
-
-		// left and right if across river
-		if (across_river)
-		{
-			moves.push_back(make_pair(x, y - 1));	
-			moves.push_back(make_pair(x, y + 1));
-		}
 	}
 }
