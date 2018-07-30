@@ -119,15 +119,24 @@ namespace chinese_chess
 
 	bool Board::valid_horse(shared_ptr<Piece> p, int px, int py, int dx, int dy)
 	{
-		// Condition I: not obstructed by another piece
-		// if dy > dx that means moving left or right first
-		// if dx > dy that means moving up or down first
-		// if moving up first, check if one up is obstructed vv for down
-		// if moving right, check if one right is obstructed vv for left
-		if (dy > dx)	
-			return (dy < 0 && !board[px][py - 1]) || !board[px][py + 1];
-		else
-			return (dx < 0 && !board[px - 1][py]) || !board[px + 1][py];
+		// Board's job here is to check for obstructions along the way which occurs when:
+		// - there is a piece on the first move, e.g. horizontal or vertical
+		// - in layman's term, horse cannot jump over pieces unlike in western chess
+		
+		// First move is vertical
+		if (abs(dx) == 2 && board[px + (dx/abs(dx))][py])
+		{
+			return false;
+		}
+		
+		// First move is horizontal
+		else if (abs(dy) == 2 && board[px][py + (dy/abs(dy))])
+		{
+			return false;
+		}
+
+		// else not board's problem 
+		return true;
 	}
 
 	// TODO: totally gotta refactor this
@@ -243,7 +252,6 @@ namespace chinese_chess
 			default:
 				return false; // cop out move, maybe a better error handling?
 		}
-
 
 		// update board side (after piece side is validated)
 		// * reference piece in new position (kills enemy piece if any due to smart ptr)
