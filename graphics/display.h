@@ -10,11 +10,22 @@ using std::make_shared;
 
 namespace chinese_chess
 {
+    /* Display (view)
+ 	 *
+ 	 * Has knowledge of the window and how to draw things. Receives input from model and
+ 	 * displays to user.
+ 	 *
+ 	 */
 	class Display
 	{
 	  public:
+		// create a default window / game
 		Display(shared_ptr<Board> b): window(make_shared<sf::RenderWindow>(sf::VideoMode(width, height), "Chinese Chess")), board(b) {}
+
+		// walkthrough and draw everything
 		void draw();
+
+		// useful info to pass around
 		shared_ptr<sf::RenderWindow> get_window() { return window; }
 		bool window_open() { return window->isOpen(); }
 

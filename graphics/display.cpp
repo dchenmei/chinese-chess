@@ -2,13 +2,16 @@
 
 namespace chinese_chess
 {
+	// Given info of a board, draw the pieces in their corresponding position
 	void Display::draw_pieces()
 	{
+		// A piece's properties
 		const double radius = 30, board_space = height - (top_border * 2);
 		sf::CircleShape shape(radius);
 		sf::Texture texture;
-		auto b = board->get_board();
+
 		// walk through board and draw the pieces' position w/ offset in mind
+		auto b = board->get_board();
 		for (uint i = 0; i < b.size(); ++i)
 		{
 			for (uint j = 0; j < b[i].size(); ++j)
@@ -57,12 +60,12 @@ namespace chinese_chess
 							break;
 		
 						default:
-							return; // TODO: maybe throw some type of error
-
+							return; 
 					}
 					shape.setTexture(&texture);
 
-					// if selected, highlight
+
+					// if selected, highlight 
 					if (b[i][j]->is_selected())
 					{
 						shape.setFillColor((b[i][j]->is_red() ? 
@@ -74,8 +77,7 @@ namespace chinese_chess
 						shape.setFillColor(sf::Color::White);
 					}
 
-						
-					//shape.setOutlineColor((b[i][j]->is_red() ? sf::Color::Red : sf::Color::Black));
+					// position offset
 					double x = (j * board_space / num_vlines) + left_border;
 					double y  = (i * board_space / num_hlines) + top_border;
 					shape.setPosition(x - radius, y - radius);
@@ -90,7 +92,7 @@ namespace chinese_chess
 		// Background Color
 		window->clear(brown);
 
-		// Board 
+		// Actual playing area w/ different color
 		sf::RectangleShape rectangle(sf::Vector2f(width - (left_border * 2), height - (top_border * 2)));
 		rectangle.setPosition(left_border, top_border);
 		rectangle.setFillColor(wood);
@@ -105,7 +107,7 @@ namespace chinese_chess
 			double board_space = height - (top_border * 2);
 
 			// note:
-			// Because lines only serve visual purposes, object reuse is okay
+			// Because lines only serve visual purposes, graphic object reuse is okay
 
 			// horizontal lines
 			sf::RectangleShape hline(sf::Vector2f(height - (top_border * 2), 3));
@@ -157,14 +159,15 @@ namespace chinese_chess
 	void Display::draw()
 	{
 		sf::Event event;
+		
+		// If the close button ("x") is clicked, close window
 		if (window->pollEvent(event))
 		{
-			// close window by clicking "x" 
 			if (event.type == sf::Event::Closed)
 				window->close();	
-
 		}
 
+		// Draw elements of the game
 		draw_board();
 		draw_lines();
 		draw_pieces();
