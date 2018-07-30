@@ -99,15 +99,22 @@ namespace chinese_chess
 		// - not block by another piece (cannot jump over other piece) -- checked by board
 		// - one point horizontal / verical then one point diagonally
 		// 	 * can also be viewed as two points (u, d, l, r) * two directions
-		// 8 possible combinations
 
-		// TODO: Double check this logic
-		if (abs(dx - dy) != 1)
-			return false;
+		// Intuition:
+		// - if moving up or down, absolute of left or right is always 1
+		// - if moving left or right, absolute of up or down is always 1
+		// - thus eight possibilities are: (x +- 2, y +- 1) and (x +-1, y +- 2)
 
-		x += dx;
-		y += dy;
-		return true;
+		// Only possibilities
+		if ((abs(dx) == 2 && abs(dy) == 1) || (abs(dx) == 1 && abs(dy) == 2))
+		{
+			x += dx;
+			y += dy;
+			return true;
+		}
+
+		// not within the combinations
+		return false;
 	}
 
 	void Horse::gen_moves()
