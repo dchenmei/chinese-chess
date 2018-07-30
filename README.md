@@ -43,6 +43,17 @@ Requirements: SFML graphics libary, more info here: [sfml download](https://www.
 
 # Gameplay 
 
+Click on a piece to select then click on a spot to move it there. Red goes first!
+
+<p align="center">
+	<img src="/graphics/examples/two.gif" width="500" height="500" />
+</p>
+
+-- Few things to keep in mind
+> selecting a piece is best done with mouse pointing at right bottom of the piece
+> perpetual plays should be called by the player or judge as in the original!
+> check should also be called by the player, in this version you can accidetally kill your general!!
+
 # Contribution
 
 The game is perfect for casual play but not very feature rich. Bugs can be located in the `bugs.md` file, any help or suggestions are welcome.
