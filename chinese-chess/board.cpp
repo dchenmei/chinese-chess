@@ -88,8 +88,7 @@ namespace chinese_chess
 	
 		// TODO
 		// Condition III: not in check
-		// for each opposing piece, generate all possible moves and see if they correspond
-		// with the desired location
+		// Not implemented currently, more hardcore this way?
 		
 		// nothing wrong
 		return true;
@@ -139,7 +138,6 @@ namespace chinese_chess
 		return true;
 	}
 
-	// TODO: totally gotta refactor this
 	bool Board::valid_chariot(shared_ptr<Piece> p, int px, int py, int dx, int dy)
 	{
 		// Condition: no piece in between current position and destination, and move in one direction
@@ -201,12 +199,6 @@ namespace chinese_chess
 		return valid_chariot(p, px, py, dx, dy);
 	}
 
-	// TODO: maybe the responsibility of this check should be on the piece
-	bool Board::valid_soldier(shared_ptr<Piece> p, int px, int py, int dx, int dy)
-	{
-		return true; // nothing for board to check
-	}
-
 	bool Board::move(int px, int py, int dx, int dy)	
 	{
 		// check if there is a piece at px py
@@ -247,17 +239,16 @@ namespace chinese_chess
 				if (valid_cannon(p, px, py, dx, dy)) break;
 				return false;
 			case soldier:
-     			if (valid_soldier(p, px, py, dx, dy)) break;
-				return false;
+				break;
 			default:
-				return false; // cop out move, maybe a better error handling?
+				return false; 
 		}
 
 		// update board side (after piece side is validated)
-		// * reference piece in new position (kills enemy piece if any due to smart ptr)
-		// * resets the original position
 		if (!(p->move(dx, dy))) return false;
 
+		// * reference piece in new position (kills enemy piece if any due to smart ptr)
+		// * resets the original position
 		board[px + dx][py + dy] = board[px][py];
 		board[px][py] = nullptr;
 
@@ -266,8 +257,6 @@ namespace chinese_chess
 			dynamic_pointer_cast<Soldier>(p)->cross_river();
 		
 		return true;
-		// if piece side move failed, don't do anything
-		// maybe throw error is a better idea?
 	}
 
 	bool Board::in_box(int px, int py, bool red)
@@ -286,11 +275,4 @@ namespace chinese_chess
 	{
 		return px > -1 && px < 9 && py > -1 && py < 10;
 	}
-
-	/*
-	bool Board::in_board(bool x, bool y, bool width, bool height)
-	{
-			
-	}
-	*/
 }
