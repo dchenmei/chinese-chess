@@ -50,9 +50,9 @@ Click on a piece to select then click on a spot to move it there. Red goes first
 </p>
 
 -- Few things to keep in mind
-> selecting a piece is best done with mouse pointing at right bottom of the piece
-> perpetual plays should be called by the player or judge as in the original!
-> check should also be called by the player, in this version you can accidetally kill your general!!
+* selecting a piece is best done with mouse pointing at right bottom of the piece
+* perpetual plays should be called by the player or judge as in the original!
+* check should also be called by the player, in this version you can accidetally kill your general!!
 
 # Contribution
 
