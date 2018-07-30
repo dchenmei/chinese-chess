@@ -46,7 +46,7 @@ Requirements: SFML graphics libary, more info here: [sfml download](https://www.
 Click on a piece to select then click on a spot to move it there. Red goes first!
 
 <p align="center">
-	<img src="/graphics/examples/two.gif" width="500" height="500" />
+	<img src="/graphics/examples/out.gif" width="500" height="500" />
 </p>
 
 -- Few things to keep in mind
