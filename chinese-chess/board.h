@@ -24,6 +24,9 @@ namespace chinese_chess
 	{
 	  public:
 		Board();
+		
+		// return true if game is over (one general dead)
+		bool game_over() { return over; }
 
 		// print board (in console)
 		void print();
@@ -52,6 +55,7 @@ namespace chinese_chess
 		const vector<vector<shared_ptr<Piece>>>& get_board() { return board; }
 
 	  private:
+		bool over;
 		const unsigned int width;
 		const unsigned int length;
 		vector<vector<shared_ptr<Piece>>> board;

@@ -2,7 +2,7 @@
 
 namespace chinese_chess
 {
-	Board::Board(): width(9), length(10), board(length, vector<shared_ptr<Piece>>(width))
+	Board::Board(): over(false), width(9), length(10), board(length, vector<shared_ptr<Piece>>(width))
 	{
     	// Base line: general, advisor, elephant, horse, chariot
     	
@@ -247,8 +247,13 @@ namespace chinese_chess
 		// update board side (after piece side is validated)
 		if (!(p->move(dx, dy))) return false;
 
+		// * if general is captured, set game over
 		// * reference piece in new position (kills enemy piece if any due to smart ptr)
 		// * resets the original position
+
+		if (board[px + dx][py + dy] && board[px + dx][py + dy]->get_id() == general)
+			over = true;
+
 		board[px + dx][py + dy] = board[px][py];
 		board[px][py] = nullptr;
 
