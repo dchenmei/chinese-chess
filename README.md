@@ -3,7 +3,7 @@ Also known as xiangqi. Objective of the game is to capture the general. Further 
 at [wiki](https://en.wikipedia.org/wiki/Xiangqi#Rules).
 
 <p align="center">
-	<img src="master/graphics/examples/one.png" width="500" height="500" />
+	<img src="/graphics/examples/one.png" width="500" height="500" />
 </p>
 
 # Installation
